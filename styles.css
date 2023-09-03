@@ -615,6 +615,8 @@ transition:  all 300ms ease-in-out;
   background: #662574 !important;
 }
 
+.projects::before
+
 /*  Contact  */
 .contact {
   background: radial-gradient(#e1efff, white);
