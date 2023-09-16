@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template,request
 import mysql.connector
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='template')
 conn = mysql.connector.connect(
     host='localhost',
     user='root',
@@ -11,7 +11,11 @@ conn = mysql.connector.connect(
 )
 cursor = conn.cursor()
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/contact", methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
         USERNAME = request.form['username']
@@ -21,7 +25,7 @@ def contact():
 
     
         # Account doesnt exists and the form data is valid, now insert new account into accounts table
-        query =("INSERT INTO contact (USERNAME ,EMAIL ,MESSAGE) VALUES (%s, %s, %s)")  
+        query =("INSERT INTO contact (USERNAME ,EMAIL , SUBJECT, MESSAGE) VALUES (%s, %s, %s, %s)")  
         cursor.execute(query, (USERNAME ,EMAIL ,MESSAGE, SUBJECT))
         contact=conn.commit()
     
